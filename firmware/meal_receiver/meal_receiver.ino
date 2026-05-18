@@ -254,7 +254,7 @@ bool fetchMealImage(int offset) {
     if (getLocalTime(&t)) {
       esp_sleep_wakeup_cause_t w = esp_sleep_get_wakeup_cause();
       const char* wr = (w == ESP_SLEEP_WAKEUP_TIMER) ? "timer" :
-                       (w == ESP_SLEEP_WAKEUP_GPIO) ? "button" : "boot";
+                       (w == ESP_SLEEP_WAKEUP_EXT1) ? "button" : "boot";
       snprintf(status, sizeof(status), "Fetched %02d:%02d [%s] | Next wake ~%02d:%02d",
                t.tm_hour, t.tm_min, wr, WAKE_HOUR, WAKE_MINUTE);
     }
@@ -460,7 +460,7 @@ void setup() {
   esp_sleep_wakeup_cause_t wakeup = esp_sleep_get_wakeup_cause();
   const char* wakeReason = "Cold boot";
   if (wakeup == ESP_SLEEP_WAKEUP_TIMER) wakeReason = "Timer";
-  else if (wakeup == ESP_SLEEP_WAKEUP_GPIO) wakeReason = "Button";
+  else if (wakeup == ESP_SLEEP_WAKEUP_EXT1) wakeReason = "Button";
   Serial.printf("\n=== Meal Display [wake: %s] ===\n", wakeReason);
 
   prefs.begin("meal", false);
@@ -489,14 +489,22 @@ void setup() {
   // Sync time
   syncTime();
 
-  // Fetch and display current week
+  // If a button woke us, apply its action to the initial fetch so the wake-press
+  // itself counts as navigation (otherwise the first press is "lost" to waking up).
   weekOffset = 0;
-  if (!fetchMealImage(0)) {
+  if (wakeup == ESP_SLEEP_WAKEUP_EXT1) {
+    uint64_t pinMask = esp_sleep_get_ext1_wakeup_status();
+    if (pinMask & (1ULL << BTN_ROT_UP))      weekOffset = -1;
+    else if (pinMask & (1ULL << BTN_ROT_DN)) weekOffset =  1;
+    // BTN_ROT_OK → offset stays 0 (refresh current week)
+    Serial.printf("Wake button mask=0x%llx → initial offset=%d\n", pinMask, weekOffset);
+  }
+  if (!fetchMealImage(weekOffset)) {
     Serial.println("Fetch failed");
   }
 
   // If woken by button → enter active mode (handle more button presses)
-  if (wakeup == ESP_SLEEP_WAKEUP_GPIO) {
+  if (wakeup == ESP_SLEEP_WAKEUP_EXT1) {
     activeButtonLoop();
   }
 
