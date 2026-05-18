@@ -4,7 +4,7 @@
 
 一款用于 **ELECROW CrowPanel ESP32-S3 5.79 寸电子墨水屏** 的每周菜谱展示项目（[Amazon](https://www.amazon.com/dp/B0FX4PDW6M)）。一台一直开机的小型 Linux 服务器（树莓派、NVIDIA Jetson、NUC，任何长期在线的设备都行)根据你的数据生成菜谱图片并提供 HTTP 服务；墨水屏设备主动拉取并显示图片。ESP32-S3 上的深度睡眠固件让设备只靠一块小锂电池就能运行数月。
 
-> 💡 **配套项目：** 这个仓库是 *显示前端*，从一个 SQLite 数据库里读取菜谱。对应的后端 —— 也就是你实际编辑菜谱的地方 —— 是 **[meal-planner](https://github.com/wenhao-anthropic/meal-planner)**：一个自托管的 FastAPI 应用，提供网页 UI 来管理菜品、拖拽式周菜谱编排、自动生成购物清单等等。两个仓库之间只通过一个 SQLite 文件通信；如果你不想用 meal-planner，也可以接入任何其他数据源 —— 只需要改写一个 Python 函数（详见下文 [接入你的数据源](#接入你的数据源)）。
+> 💡 **配套项目：** 这个仓库是 *显示前端*，从一个 SQLite 数据库里读取菜谱。对应的后端 —— 也就是你实际编辑菜谱的地方 —— 是 **[meal-planner](https://github.com/petergu684/meal-planner)**：一个自托管的 FastAPI 应用，提供网页 UI 来管理菜品、拖拽式周菜谱编排、自动生成购物清单等等。两个仓库之间只通过一个 SQLite 文件通信；如果你不想用 meal-planner，也可以接入任何其他数据源 —— 只需要改写一个 Python 函数（详见下文 [接入你的数据源](#接入你的数据源)）。
 
 ![预览图](docs/preview.png)
 

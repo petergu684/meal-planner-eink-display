@@ -4,7 +4,7 @@
 
 A weekly meal plan display for the **ELECROW CrowPanel ESP32-S3 5.79" E-Paper** ([Amazon](https://www.amazon.com/dp/B0FX4PDW6M)). A small Linux server (Raspberry Pi, NVIDIA Jetson, NUC, anything always-on) generates a meal-plan image from your data and serves it; the e-ink device pulls and displays it. Deep-sleep firmware on the ESP32-S3 makes it run for months on a small LiPo battery.
 
-> 💡 **Companion project:** This repo is the *display front-end*. It reads meal-plan data from a SQLite database. The matching back-end where you actually plan meals is **[meal-planner](https://github.com/wenhao-anthropic/meal-planner)** — a self-hosted FastAPI app with a web UI for managing dishes, drag-and-drop weekly planning, grocery lists, and more. The two repos talk to each other purely through the SQLite file; you can also use this display with any other data source by rewriting one Python function (see [Plug in your data source](#plug-in-your-data-source) below).
+> 💡 **Companion project:** This repo is the *display front-end*. It reads meal-plan data from a SQLite database. The matching back-end where you actually plan meals is **[meal-planner](https://github.com/petergu684/meal-planner)** — a self-hosted FastAPI app with a web UI for managing dishes, drag-and-drop weekly planning, grocery lists, and more. The two repos talk to each other purely through the SQLite file; you can also use this display with any other data source by rewriting one Python function (see [Plug in your data source](#plug-in-your-data-source) below).
 
 ![Preview](docs/preview.png)
 
