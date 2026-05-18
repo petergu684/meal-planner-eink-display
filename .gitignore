@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Arduino build artifacts
+build/
+*.elf
+*.bin.tmp
+
+# Local config (don't commit secrets / personal IPs)
+config.local.*

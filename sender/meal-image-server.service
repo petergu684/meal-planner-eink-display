@@ -1,0 +1,21 @@
+[Unit]
+Description=Meal Plan Image Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Replace these placeholders with your values before installing:
+#   <USER>      e.g. wenhao
+#   <REPO_DIR>  e.g. /home/wenhao/eink-meal-display
+#   <PYTHON>    e.g. /usr/bin/python3
+User=<USER>
+WorkingDirectory=<REPO_DIR>/sender
+ExecStart=<PYTHON> <REPO_DIR>/sender/image_server.py
+# Optional: tell the server where to find your meal-plan database
+# Environment="MEAL_PLANNER_DB=/path/to/meal_planner.db"
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
